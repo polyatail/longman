@@ -15,7 +15,7 @@ import tempfile
 import gzip
 import zipfile
 
-PATH_TO_PEAR = "~/bin/pear"
+PATH_TO_PEAR = "pear"
 
 def fetch_unzip(zipfile_obj, filename):
   # accepts zipfile object and filename contained within, returns
@@ -232,7 +232,7 @@ def main():
   
       if stats["assembled_reads"] < options.min_merged_perc:
         sys.stderr.write("  Warning: Only %.02f%% of reads assembled\n" % stats["assembled_reads"])
-  
+ 
       # read through fastq
       total_reads = 0.0
       kept_reads = 0.0
@@ -259,6 +259,15 @@ def main():
         kept_reads += 1
         seq_rec.id = " ".join([pair_name, seq_rec.id.split(" ")[0]])
         fp.write(">%s\n%s\n" % (seq_rec.id, seq_rec.sequence))
+
+      # remove temporary files
+      os.unlink(left.name)
+      os.unlink(right.name)
+      os.unlink(merged.name)
+      os.unlink("%s.assembled.fastq" % merged.name)
+      os.unlink("%s.discarded.fastq" % merged.name)
+      os.unlink("%s.unassembled.forward.fastq" % merged.name)
+      os.unlink("%s.unassembled.reverse.fastq" % merged.name)
 
       if total_reads == 0:
         continue
