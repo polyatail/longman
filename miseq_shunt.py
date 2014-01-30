@@ -260,6 +260,9 @@ def main():
         seq_rec.id = " ".join([pair_name, seq_rec.id.split(" ")[0]])
         fp.write(">%s\n%s\n" % (seq_rec.id, seq_rec.sequence))
 
+      if total_reads == 0:
+        continue
+
       if kept_reads / total_reads < options.min_qual_perc:
         sys.stderr.write("  Warning: Only %.02f%% of reads passed quality filter (mean(qv) > %s)\n" % (kept_reads * 100 / total_reads, options.min_qual))
 
