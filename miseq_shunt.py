@@ -209,7 +209,7 @@ def main():
   miseq_zip = zipfile.ZipFile(args[0])
 
   # find pairs
-  pairs = [("_".join(x.split("/")[-1].split(".")[0].split("_")[:-2]), (x, y)) for x, y in find_pairs(miseq_zip)][:3]
+  pairs = [("_".join(x.split("/")[-1].split(".")[0].split("_")[:-2]), (x, y)) for x, y in find_pairs(miseq_zip)]
 
   min_read_length = 1e10
   max_read_length = 0
