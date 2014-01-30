@@ -269,11 +269,9 @@ def main():
       os.unlink("%s.unassembled.forward.fastq" % merged.name)
       os.unlink("%s.unassembled.reverse.fastq" % merged.name)
 
-      if total_reads == 0:
-        continue
-
-      if kept_reads / total_reads < options.min_qual_perc:
-        sys.stderr.write("  Warning: Only %.02f%% of reads passed quality filter (mean(qv) > %s)\n" % (kept_reads * 100 / total_reads, options.min_qual))
+      if total_reads > 0:
+        if kept_reads / total_reads < options.min_qual_perc:
+          sys.stderr.write("  Warning: Only %.02f%% of reads passed quality filter (mean(qv) > %s)\n" % (kept_reads * 100 / total_reads, options.min_qual))
 
       sys.stderr.write("  %d/%d reads kept\n" % (kept_reads, total_reads))
 
