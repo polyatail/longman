@@ -15,7 +15,7 @@ import tempfile
 import gzip
 import zipfile
 
-PATH_TO_PEAR = "pear"
+PATH_TO_PEAR = "~/bin/pear"
 
 def fetch_unzip(zipfile_obj, filename):
   # accepts zipfile object and filename contained within, returns
