@@ -258,7 +258,7 @@ def main():
 
         # rename reads and write to pooled output
         kept_reads += 1
-        seq_rec.id = "%s_%s %s" % (pair_name, kept_reads, seq_rec.id.split(" ")[0])
+        seq_rec.id = "%s_%d %s" % (pair_name, kept_reads, seq_rec.id.split(" ")[0])
         fp.write(">%s\n%s\n" % (seq_rec.id, seq_rec.sequence))
 
       # remove temporary files
