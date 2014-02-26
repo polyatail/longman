@@ -162,6 +162,20 @@ def parse_options(arguments):
                     default=33,
                     help="phred quality offset (default 33 for illumina 1.8+)")
 
+  parser.add_option("--max-runons",
+                    dest="max_runons",
+                    type="int",
+                    metavar="[6]",
+                    default=6,
+                    help="remove reads with greater than this many bases in a row")
+
+  parser.add_option("--max-unknown",
+                    dest="max_unknown",
+                    type="int",
+                    metavar="[6]",
+                    default=6,
+                    help="remove reads with greater than this many Ns")
+
   parser.add_option("--min-qual-perc",
                     dest="min_qual_perc",
                     type="int",
@@ -244,6 +258,18 @@ def main():
         # check that read passes quality filter
         if mean([ord(x) - options.phred_offset for x in seq_rec.quals]) < \
            options.min_qual:
+          continue
+
+        # remove reads with > n of the same base consecutively
+        if "N" * options.max_runons in seq_rec.sequence or \
+           "A" * options.max_runons in seq_rec.sequence or \
+           "T" * options.max_runons in seq_rec.sequence or \
+           "G" * options.max_runons in seq_rec.sequence or \
+           "C" * options.max_runons in seq_rec.sequence:
+          continue
+
+        # remove reads with > n unknown bases
+        if seq_rec.sequence.count("N") > options.max_unknown:
           continue
 
         # keep track of stats
